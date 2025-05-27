@@ -73,7 +73,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite seu nome" />
+                    <Input placeholder="Digite seu nome" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,7 +86,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite seu email" />
+                    <Input placeholder="Digite seu email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,7 +99,11 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite sua senha" type="password" />
+                    <Input
+                      placeholder="Digite sua senha"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,7 +116,11 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Confirmar senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Confirme sua senha" type="password" />
+                    <Input
+                      placeholder="Confirme sua senha"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,7 +128,7 @@ const SignUpForm = () => {
             />
           </CardContent>
           <CardFooter>
-            <Button>Criar conta</Button>
+            <Button type="submit">Criar conta</Button>
           </CardFooter>
         </form>
       </Form>
