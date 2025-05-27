@@ -18,16 +18,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const signInSchema = z.object({
-  email: z.string().trim().email({ message: "Email inválido" }),
-  password: z
-    .string()
-    .trim()
-    .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
+  email: z.string().trim().email(),
+  password: z.string().trim().min(1),
 });
 
 type SignInSchema = z.infer<typeof signInSchema>;
@@ -41,8 +42,23 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data: SignInSchema) => {
-    console.log(data);
+  const router = useRouter();
+
+  const onSubmit = async (values: SignInSchema) => {
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+        onError: (error) => {
+          toast.error("Credenciais inválidas");
+        },
+      },
+    );
   };
 
   return (
@@ -86,7 +102,17 @@ const SignInForm = () => {
             />
           </CardContent>
           <CardFooter>
-            <Button>Entrar</Button>
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Entrar"
+              )}
+            </Button>
           </CardFooter>
         </form>
       </Form>
