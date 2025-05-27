@@ -80,7 +80,7 @@ export const clinicsTable = pgTable("clinics", {
   address: text("address").notNull(),
   phone: text("phone").notNull(),
   email: text("email").notNull(),
-  website: text("website").notNull(),
+  website: text("website"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
