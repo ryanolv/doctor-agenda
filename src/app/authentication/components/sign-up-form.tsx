@@ -18,9 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const signUpSchema = z.object({
   name: z
@@ -50,9 +53,21 @@ const SignUpForm = () => {
       confirmPassword: "",
     },
   });
+  const router = useRouter();
 
-  const onSubmit = (data: SignUpSchema) => {
-    console.log(data);
+  const onSubmit = async (values: SignUpSchema) => {
+    await authClient.signUp.email(
+      {
+        email: values.email,
+        name: values.name,
+        password: values.password,
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      },
+    );
   };
 
   return (
@@ -128,7 +143,17 @@ const SignUpForm = () => {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit">Criar conta</Button>
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
+              {form.formState.isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Criar conta"
+              )}
+            </Button>
           </CardFooter>
         </form>
       </Form>
