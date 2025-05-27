@@ -1,10 +1,22 @@
-import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
+import { auth } from "@/lib/auth";
+
+import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { TabsList } from "@/components/ui/tabs";
 import SignInForm from "./components/sign-in-form";
 import SignUpForm from "./components/sign-up-form";
 
-const AuthenticationPage = () => {
+const AuthenticationPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex h-screen w-screen items-center justify-center px-4">
       <Tabs defaultValue="account" className="h-[440px] w-[400px]">
