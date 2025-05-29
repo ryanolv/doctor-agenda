@@ -25,7 +25,7 @@ const OptionsProfile = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="w-full">
           <Avatar>
-            <AvatarImage src={session.data?.user.image || null} />
+            <AvatarImage src={session.data?.user.image || undefined} />
             <AvatarFallback>FL</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">
@@ -43,7 +43,7 @@ const OptionsProfile = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem>Perfil</DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-red-500 hover:bg-red-500/10 hover:text-red-500"
+          className="cursor-pointer text-red-500 hover:bg-red-500/10 hover:text-red-500 focus:bg-red-500/10 focus:text-red-500"
           onClick={handleSignOut}
         >
           Sair
