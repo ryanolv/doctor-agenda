@@ -3,6 +3,7 @@ import {
   boolean,
   date,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -134,8 +135,10 @@ export const doctorsTable = pgTable("doctors", {
   avatarImageUrl: text("avatar_image_url"),
   specialization: text("specialization").notNull(),
   appointmentPriceInCents: integer("appointment_price_in_cents").notNull(),
-  availableFromWeekDays: integer("available_from_week_days").notNull(), // 0-6
-  availableToWeekDays: integer("available_to_week_days").notNull(), // 0-6
+  availableWeekdays: jsonb("available_weekdays")
+    .$type<number[]>()
+    .notNull()
+    .default([]),
   availableFromTime: time("available_from_time").notNull(),
   availableToTime: time("available_to_time").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
