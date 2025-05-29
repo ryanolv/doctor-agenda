@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -23,6 +25,8 @@ import {
 import { authClient } from "@/lib/auth-client";
 import FooterSidebar from "./options-profile";
 import OptionsProfile from "./options-profile";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Menu items.
 const items = [
@@ -49,6 +53,8 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+  const isActive = (path: string) => pathname === path;
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
@@ -61,7 +67,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className={cn(
+                      "text-sm font-medium",
+                      isActive(item.url) &&
+                        "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-white",
+                    )}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -90,7 +103,9 @@ export function AppSidebar() {
       <SidebarFooter className="p-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <OptionsProfile />
+            <SidebarMenuButton asChild>
+              <OptionsProfile />
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
