@@ -30,10 +30,10 @@ const OptionsProfile = () => {
           </Avatar>
           <div className="flex flex-col items-start">
             <p className="text- font-medium">
-              {session.data?.user.clinic.name}
+              {session.data?.user?.clinic?.name}
             </p>
             <p className="text-muted-foreground text-xs">
-              {session.data?.user.clinic.email}
+              {session.data?.user?.clinic?.email}
             </p>
           </div>
         </Button>
