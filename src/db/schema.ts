@@ -131,7 +131,7 @@ export const doctorsTable = pgTable("doctors", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
-  avatarImageUrl: text("avatar_image_url").notNull(),
+  avatarImageUrl: text("avatar_image_url"),
   specialization: text("specialization").notNull(),
   appointmentPriceInCents: integer("appointment_price_in_cents").notNull(),
   availableFromWeekDays: integer("available_from_week_days").notNull(), // 0-6
