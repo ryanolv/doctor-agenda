@@ -29,20 +29,22 @@ export const auth = betterAuth({
           clinic: true,
         },
       });
-      const clinic = clinics[0];
+      const clinic = clinics?.[0];
 
       return {
         session,
         user: {
           ...user,
-          clinic: {
-            id: clinic.clinicId,
-            name: clinic.clinic.name,
-            address: clinic.clinic.address,
-            phone: clinic.clinic.phone,
-            email: clinic.clinic.email,
-            website: clinic.clinic.website,
-          },
+          clinic: clinic
+            ? {
+                id: clinic.clinicId,
+                name: clinic.clinic.name,
+                address: clinic.clinic.address,
+                phone: clinic.clinic.phone,
+                email: clinic.clinic.email,
+                website: clinic.clinic.website,
+              }
+            : null,
         },
       };
     }),
