@@ -49,8 +49,7 @@ const formSchema = z
     avatarImageUrl: z.string().optional(),
     specialization: z.string(),
     appointmentPrice: z.number().min(1),
-    availableFromWeekDay: z.array(z.number()),
-    availableToWeekDay: z.number(),
+    availableWeekDays: z.array(z.number()),
     availableFromTime: z.string(),
     availableToTime: z.string(),
   })
@@ -75,8 +74,7 @@ const UpsertDoctorForm = () => {
       avatarImageUrl: "",
       specialization: "",
       appointmentPrice: 0,
-      availableFromWeekDay: [],
-      availableToWeekDay: 0,
+      availableWeekDays: [],
       availableFromTime: "",
       availableToTime: "",
     },
@@ -166,7 +164,7 @@ const UpsertDoctorForm = () => {
           <div className="flex justify-between gap-5 py-2">
             <FormField
               control={form.control}
-              name="availableFromWeekDay"
+              name="availableWeekDays"
               render={({ field }) => {
                 const handleValueChange = (selectedValues: string[]) => {
                   const numericValues = selectedValues.map(Number);
