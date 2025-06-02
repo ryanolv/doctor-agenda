@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { NumericFormat } from "react-number-format";
-import { IMaskInput, useIMask } from "react-imask";
+import { useIMask } from "react-imask";
+import { useAction } from "next-safe-action/hooks";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,8 @@ import {
   available_hours_morning,
   specialities,
 } from "../constants/upsert-doctor";
+import { upsertDoctor } from "@/actions/upsert-doctor";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -65,7 +68,11 @@ const formSchema = z
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const UpsertDoctorForm = () => {
+type UpsertDoctorFormProps = {
+  onSuccess?: () => void;
+};
+
+const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,8 +87,21 @@ const UpsertDoctorForm = () => {
     },
   });
 
+  const upsertDoctorAction = useAction(upsertDoctor, {
+    onSuccess: () => {
+      toast.success("Médico adicionado com sucesso!");
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error("Erro ao adicionar médico.");
+    },
+  });
+
   const onSubmit = (values: FormSchema) => {
-    console.log(values);
+    upsertDoctorAction.execute({
+      ...values,
+      appointmentPriceInCents: values.appointmentPrice * 100,
+    });
   };
   return (
     <DialogContent>
@@ -122,7 +142,8 @@ const UpsertDoctorForm = () => {
               const { ref, value, setValue } = useIMask(
                 {
                   mask: "(00) 0 0000-0000",
-                  onAccept: (value: string, mask: unknown) =>
+                  // TODO: set type to mask param
+                  onAccept: (value: string, mask: any) =>
                     field.onChange(mask.unmaskedValue),
                 },
                 {
@@ -135,6 +156,7 @@ const UpsertDoctorForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      // Fix ref value
                       ref={ref}
                       placeholder="(00) 0 0000-0000"
                       value={value}
@@ -322,7 +344,9 @@ const UpsertDoctorForm = () => {
           </div>
 
           <DialogFooter>
-            <Button type="submit">Adicionar</Button>
+            <Button type="submit" disabled={upsertDoctorAction.isPending}>
+              Adicionar
+            </Button>
           </DialogFooter>
         </form>
       </Form>
