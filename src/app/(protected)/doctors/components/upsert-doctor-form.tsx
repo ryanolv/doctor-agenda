@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { NumericFormat } from "react-number-format";
+import { IMaskInput, useIMask } from "react-imask";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -45,7 +45,7 @@ const formSchema = z
       message: "Nome é obrigatório.",
     }),
     email: z.string().email(),
-    phone: z.number().min(8),
+    phone: z.string().min(14),
     avatarImageUrl: z.string().optional(),
     specialization: z.string(),
     appointmentPrice: z.number().min(1),
@@ -70,7 +70,7 @@ const UpsertDoctorForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      phone: 0,
+      phone: "",
       avatarImageUrl: "",
       specialization: "",
       appointmentPrice: 0,
@@ -118,24 +118,31 @@ const UpsertDoctorForm = () => {
           <FormField
             control={form.control}
             name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Número para contato</FormLabel>
-                <FormControl>
-                  <NumericFormat
-                    value={field.value}
-                    onValueChange={(value) => {
-                      field.onChange(value.floatValue);
-                    }}
-                    allowNegative={false}
-                    allowLeadingZeros={false}
-                    customInput={Input}
-                    maxLength={11}
-                    minLength={11}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const { ref, value, setValue } = useIMask(
+                {
+                  mask: "(00) 0 0000-0000",
+                  onAccept: (value: string, mask: unknown) =>
+                    field.onChange(mask.unmaskedValue),
+                },
+                {
+                  defaultValue: field.value,
+                },
+              );
+              return (
+                <FormItem>
+                  <FormLabel>Número para contato</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      ref={ref}
+                      placeholder="(00) 0 0000-0000"
+                      value={value}
+                    />
+                  </FormControl>
+                </FormItem>
+              );
+            }}
           />
           <FormField
             control={form.control}
