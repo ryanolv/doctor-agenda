@@ -91,6 +91,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
     onSuccess: () => {
       toast.success("Médico adicionado com sucesso!");
       onSuccess?.();
+      form.reset();
     },
     onError: () => {
       toast.error("Erro ao adicionar médico.");
@@ -139,7 +140,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
             control={form.control}
             name="phone"
             render={({ field }) => {
-              const { ref, value, setValue } = useIMask(
+              const { ref, value } = useIMask(
                 {
                   mask: "(00) 0 0000-0000",
                   // TODO: set type to mask param
