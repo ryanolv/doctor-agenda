@@ -44,6 +44,7 @@ import { toast } from "sonner";
 
 const formSchema = z
   .object({
+    id: z.string().uuid().optional(),
     name: z.string().trim().min(2, {
       message: "Nome é obrigatório.",
     }),
@@ -66,16 +67,22 @@ const formSchema = z
     },
   );
 
-type FormSchema = z.infer<typeof formSchema>;
+export type FormSchema = z.infer<typeof formSchema>;
 
 type UpsertDoctorFormProps = {
   onSuccess?: () => void;
+  defaultValues?: FormSchema;
+  isUpdate?: boolean;
 };
 
-const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
+const UpsertDoctorForm = ({
+  isUpdate,
+  onSuccess,
+  defaultValues,
+}: UpsertDoctorFormProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: defaultValues || {
       name: "",
       phone: "",
       avatarImageUrl: "",
@@ -89,12 +96,18 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
 
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess: () => {
-      toast.success("Médico adicionado com sucesso!");
+      toast.success(
+        isUpdate
+          ? "Médico atualizado com sucesso!"
+          : "Médico adicionado com sucesso!",
+      );
       onSuccess?.();
       form.reset();
     },
     onError: () => {
-      toast.error("Erro ao adicionar médico.");
+      toast.error(
+        isUpdate ? "Erro ao atualizar médico." : "Erro ao adicionar médico.",
+      );
     },
   });
 
@@ -107,8 +120,12 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Adicionar médico</DialogTitle>
-        <DialogDescription>Adicione um novo médico.</DialogDescription>
+        <DialogTitle>
+          {isUpdate ? "Atualizar médico" : "Adicionar médico"}
+        </DialogTitle>
+        <DialogDescription>
+          {isUpdate ? "Atualize os campos necessários." : "Adicione um médico."}
+        </DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -119,7 +136,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Clinica Name" />
                 </FormControl>
               </FormItem>
             )}
@@ -131,7 +148,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} placeholder="clinica@example.com" />
                 </FormControl>
               </FormItem>
             )}
@@ -140,7 +157,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
             control={form.control}
             name="phone"
             render={({ field }) => {
-              const { ref, value } = useIMask(
+              const { ref: maskRef, value } = useIMask(
                 {
                   mask: "(00) 0 0000-0000",
                   // TODO: set type to mask param
@@ -157,8 +174,13 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      // Fix ref value
-                      ref={ref}
+                      ref={(el) => {
+                        // Assign the input element to the maskRef.current
+                        if (typeof maskRef === "object" && maskRef !== null) {
+                          // @ts-ignore
+                          maskRef.current = el;
+                        }
+                      }}
                       placeholder="(00) 0 0000-0000"
                       value={value}
                     />
@@ -315,7 +337,7 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full" value={field.value}>
                           <SelectValue placeholder="Selecione uma hora" />
                         </SelectTrigger>
                       </FormControl>
@@ -345,8 +367,12 @@ const UpsertDoctorForm = ({ onSuccess }: UpsertDoctorFormProps) => {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={upsertDoctorAction.isPending}>
-              Adicionar
+            <Button
+              type="submit"
+              className="cursor-pointer"
+              disabled={upsertDoctorAction.isPending}
+            >
+              {isUpdate ? "Atualizar médico" : "Adicionar médico"}
             </Button>
           </DialogFooter>
         </form>
