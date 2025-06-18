@@ -23,7 +23,7 @@ const OptionsProfile = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="w-full">
+        <Button variant="ghost" className="w-full cursor-pointer">
           <Avatar>
             <AvatarImage src={session.data?.user.image || undefined} />
             <AvatarFallback>FL</AvatarFallback>
