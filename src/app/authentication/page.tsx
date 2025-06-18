@@ -19,7 +19,7 @@ const AuthenticationPage = async () => {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center px-4">
-      <Tabs defaultValue="account" className="h-[440px] w-[400px]">
+      <Tabs defaultValue="sign-in" className="h-[440px] w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="sign-in">Login</TabsTrigger>
           <TabsTrigger value="sign-up">Criar conta</TabsTrigger>
