@@ -13,6 +13,8 @@ import {
   PageTitle,
 } from "@/components/ui/page-container";
 import AddDoctorButton from "./components/add-doctor-button";
+import DoctorCard from "./components/doctor-card";
+import { getDoctors } from "@/data/get-doctors";
 
 const DoctorsPage = async () => {
   const session = await auth.api.getSession({
@@ -27,6 +29,8 @@ const DoctorsPage = async () => {
     redirect("/create-clinic");
   }
 
+  const doctors = await getDoctors(session.user.clinic.id);
+
   return (
     <PageContainer>
       <PageHeader>
@@ -39,10 +43,10 @@ const DoctorsPage = async () => {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-lg font-medium">Médicos</h2>
-          </div>
+        <div className="grid grid-cols-1 justify-items-center gap-5 p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          {doctors.map((doctor) => (
+            <DoctorCard key={doctor.id} doctor={doctor} />
+          ))}
         </div>
       </PageContent>
     </PageContainer>
