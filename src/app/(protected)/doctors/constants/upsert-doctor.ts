@@ -1,15 +1,46 @@
+export const daysOfWeek = [
+  {
+    label: "Domingo",
+    value: 0,
+  },
+  {
+    label: "Segunda",
+    value: 1,
+  },
+  {
+    label: "Terça",
+    value: 2,
+  },
+  {
+    label: "Quarta",
+    value: 3,
+  },
+  {
+    label: "Quinta",
+    value: 4,
+  },
+  {
+    label: "Sexta",
+    value: 5,
+  },
+  {
+    label: "Sábado",
+    value: 6,
+  },
+];
+
 export const specialities = [
   {
     label: "Oftalmologista",
-    value: "oftalmologista",
+    value: "Oftalmologista",
   },
   {
     label: "Ortopedista",
-    value: "ortopedista",
+    value: "Ortopedista",
   },
   {
     label: "Clínico Geral",
-    value: "geral",
+    value: "Clínico Geral",
   },
 ];
 
