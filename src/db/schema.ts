@@ -189,7 +189,7 @@ export const patientsTableRelations = relations(
 );
 
 export const appointmentStatusEnum = pgEnum("appointment_status", [
-  "pending",
+  "scheduled",
   "completed",
   "cancelled",
 ]);
