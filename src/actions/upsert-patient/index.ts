@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { parse, format } from "date-fns";
+import { convertDateToUtcTimezone } from "@/helpers/timezone";
 
 export const upsertPatient = actionClient
   .schema(upsertPatientSchema)
@@ -22,8 +23,7 @@ export const upsertPatient = actionClient
       throw new Error("Clinic not found");
     }
 
-    const parsedDate = parse(parsedInput.dateOfBirth, "dd/MM/yyyy", new Date());
-    const dateOfBirth = format(parsedDate, "yyyy-MM-dd");
+    const dateOfBirth = convertDateToUtcTimezone(parsedInput.dateOfBirth);
 
     await db
       .insert(patientsTable)
