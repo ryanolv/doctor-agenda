@@ -28,5 +28,11 @@ export const columns: ColumnDef<Patient>[] = [
   {
     accessorKey: "sex",
     header: "SEXO",
+    cell: ({ row }) => {
+      if (row.original.sex === "male") {
+        return "Masculino";
+      }
+      return "Feminino";
+    },
   },
 ];
