@@ -11,7 +11,7 @@ import {
   PageHeader,
   PageHeaderContent,
 } from "@/components/ui/page-container";
-import { DataTable } from "./components/data-table";
+import { DataTable } from "@/components/data-table";
 import { columns } from "./components/columns";
 import AddPatientButton from "./components/add-patient-button";
 
