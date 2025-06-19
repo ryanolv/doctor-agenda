@@ -35,6 +35,7 @@ const UpdateDoctorButton = ({ doctor }: UpdateDoctorButtonProps) => {
         isUpdate={true}
         defaultValues={defaultValues}
         onSuccess={() => setIsOpen(false)}
+        dialogIsOpen={isOpen}
       />
     </Dialog>
   );

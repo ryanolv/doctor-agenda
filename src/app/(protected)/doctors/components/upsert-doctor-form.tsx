@@ -41,6 +41,7 @@ import {
 } from "../constants/upsert-doctor";
 import { upsertDoctor } from "@/actions/upsert-doctor";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 const formSchema = z
   .object({
@@ -73,12 +74,14 @@ type UpsertDoctorFormProps = {
   onSuccess?: () => void;
   defaultValues?: FormSchema;
   isUpdate?: boolean;
+  dialogIsOpen: boolean;
 };
 
 const UpsertDoctorForm = ({
   isUpdate,
   onSuccess,
   defaultValues,
+  dialogIsOpen,
 }: UpsertDoctorFormProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -93,6 +96,12 @@ const UpsertDoctorForm = ({
       availableToTime: "",
     },
   });
+
+  useEffect(() => {
+    if (dialogIsOpen) {
+      form.reset(defaultValues);
+    }
+  }, [dialogIsOpen, defaultValues, form]);
 
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess: () => {

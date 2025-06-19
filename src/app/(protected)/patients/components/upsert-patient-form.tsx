@@ -27,6 +27,7 @@ import { dateIsNotInFuture, isValidDate } from "@/helpers/validation";
 import { useAction } from "next-safe-action/hooks";
 import { upsertPatient } from "@/actions/upsert-patient";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -43,12 +44,14 @@ type UpsertPatientFormProps = {
   onSuccess?: () => void;
   defaultValues?: FormValues;
   isUpdate?: boolean;
+  dialogIsOpen: boolean;
 };
 
 const UpsertPatientForm = ({
   onSuccess,
   defaultValues,
   isUpdate = false,
+  dialogIsOpen,
 }: UpsertPatientFormProps) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -60,6 +63,12 @@ const UpsertPatientForm = ({
       dateOfBirth: "",
     },
   });
+
+  useEffect(() => {
+    if (dialogIsOpen) {
+      form.reset(defaultValues);
+    }
+  }, [dialogIsOpen, defaultValues, form]);
 
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {

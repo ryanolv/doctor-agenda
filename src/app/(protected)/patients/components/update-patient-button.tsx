@@ -28,6 +28,7 @@ const UpdatePatientButton = ({ patient }: UpdatePatientButtonProps) => {
           dateOfBirth: convertDateToLocalTimezone(patient.dateOfBirth),
         }}
         isUpdate={true}
+        dialogIsOpen={isOpen}
       />
     </Dialog>
   );
