@@ -12,3 +12,15 @@ export type DoctorDTO = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type PatientDTO = {
+  id: string;
+  clinicId: string;
+  name: string;
+  email: string;
+  phone: string;
+  sex: "male" | "female";
+  dateOfBirth: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
