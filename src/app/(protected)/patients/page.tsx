@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { getPatients } from "@/data/get-patients";
+import { getPatients } from "@/data/get-data";
 import { auth } from "@/lib/auth";
 
 import {

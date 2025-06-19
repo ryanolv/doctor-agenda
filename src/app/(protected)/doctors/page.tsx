@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/page-container";
 import AddDoctorButton from "./components/add-doctor-button";
 import DoctorCard from "./components/doctor-card";
-import { getDoctors } from "@/data/get-doctors";
+import { getDoctors } from "@/data/get-data";
 
 const DoctorsPage = async () => {
   const session = await auth.api.getSession({
