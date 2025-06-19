@@ -36,5 +36,5 @@ export function convertDateToLocalTimezone(date: string): string {
  */
 
 export function convertDateToUtcTimezone(date: string): string {
-  return dayjs(date).utc().format("YYYY-MM-DD");
+  return dayjs(date, "DD/MM/YYYY").utc().format("YYYY-MM-DD");
 }
