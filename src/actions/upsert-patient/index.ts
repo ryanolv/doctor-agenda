@@ -7,7 +7,6 @@ import { headers } from "next/headers";
 import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 import { revalidatePath } from "next/cache";
-import { parse, format } from "date-fns";
 import { convertDateToUtcTimezone } from "@/helpers/timezone";
 
 export const upsertPatient = actionClient
