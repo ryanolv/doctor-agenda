@@ -24,3 +24,14 @@ export type PatientDTO = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type AppointmentDTO = {
+  id: string;
+  patientId: string;
+  doctorId: string;
+  clinicId: string;
+  date: Date;
+  status: "scheduled" | "completed" | "cancelled";
+  createdAt: Date;
+  updatedAt: Date;
+};
