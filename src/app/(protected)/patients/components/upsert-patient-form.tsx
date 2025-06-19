@@ -29,6 +29,7 @@ import { upsertPatient } from "@/actions/upsert-patient";
 import { toast } from "sonner";
 
 const formSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1),
   email: z.string().email(),
   phone: z.string().min(10),
@@ -40,12 +41,18 @@ type FormValues = z.infer<typeof formSchema>;
 
 type UpsertPatientFormProps = {
   onSuccess?: () => void;
+  defaultValues?: FormValues;
+  isUpdate?: boolean;
 };
 
-const UpsertPatientForm = ({ onSuccess }: UpsertPatientFormProps) => {
+const UpsertPatientForm = ({
+  onSuccess,
+  defaultValues,
+  isUpdate = false,
+}: UpsertPatientFormProps) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: defaultValues || {
       name: "",
       email: "",
       phone: "",
@@ -57,11 +64,19 @@ const UpsertPatientForm = ({ onSuccess }: UpsertPatientFormProps) => {
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
       form.reset();
-      toast.success("Paciente adicionado com sucesso!");
+      toast.success(
+        isUpdate
+          ? "Paciente atualizado com sucesso!"
+          : "Paciente adicionado com sucesso!",
+      );
       onSuccess?.();
     },
     onError: (error) => {
-      toast.error("Erro ao adicionar paciente, tente novamente mais tarde.");
+      toast.error(
+        isUpdate
+          ? "Erro ao atualizar paciente."
+          : "Erro ao adicionar paciente.",
+      );
     },
   });
 
@@ -72,9 +87,13 @@ const UpsertPatientForm = ({ onSuccess }: UpsertPatientFormProps) => {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Adicionar um Paciente</DialogTitle>
+        <DialogTitle>
+          {isUpdate ? "Atualizar o paciente" : "Adicionar um Paciente"}
+        </DialogTitle>
         <DialogDescription>
-          Preencha os detalhes do paciente para adicionar ao sistema.
+          {isUpdate
+            ? "Atualize as informações necessárias do paciente."
+            : "Preencha os dados do paciente para adicioná-lo à sua clínica."}
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -209,8 +228,12 @@ const UpsertPatientForm = ({ onSuccess }: UpsertPatientFormProps) => {
             />
           </div>
           <DialogFooter>
-            <Button type="submit" className="cursor-pointer">
-              Adicionar paciente
+            <Button
+              type="submit"
+              className="cursor-pointer"
+              disabled={form.formState.isSubmitting}
+            >
+              {isUpdate ? "Atualizar Paciente" : "Adicionar Paciente"}
             </Button>
           </DialogFooter>
         </form>

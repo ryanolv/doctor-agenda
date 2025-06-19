@@ -2,14 +2,16 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import UpdatePatientButton from "./update-patient-button";
+import { convertDateToLocalTimezone } from "@/helpers/timezone";
+
 export type Patient = {
   id: string;
   name: string;
   email: string;
   phone: string;
   sex: "male" | "female";
+  dateOfBirth: string;
 };
 
 export const columns: ColumnDef<Patient>[] = [
@@ -26,13 +28,17 @@ export const columns: ColumnDef<Patient>[] = [
     header: "NÚMERO DE CELULAR",
   },
   {
-    accessorKey: "sex",
-    header: "SEXO",
+    accessorKey: "dateOfBirth",
+    header: "NASCIMENTO",
     cell: ({ row }) => {
-      if (row.original.sex === "male") {
-        return "Masculino";
-      }
-      return "Feminino";
+      return convertDateToLocalTimezone(row.original.dateOfBirth);
+    },
+  },
+  {
+    accessorKey: "details",
+    header: "DETALHES",
+    cell: ({ row }) => {
+      return <UpdatePatientButton patient={row.original} />;
     },
   },
 ];
