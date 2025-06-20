@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import UpsertDoctorForm from "./upsert-doctor-form";
 import { useState } from "react";
-import type { FormSchema } from "./upsert-doctor-form";
+import type { UpsertDoctorSchema } from "./upsert-doctor-form";
 
 import { DoctorDTO } from "@/types/dto";
 import { convertTimeToTimezone } from "@/helpers/timezone";
@@ -15,7 +15,7 @@ type UpdateDoctorButtonProps = {
 
 const UpdateDoctorButton = ({ doctor }: UpdateDoctorButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const defaultValues: FormSchema = {
+  const defaultValues: UpsertDoctorSchema = {
     id: doctor.id,
     name: doctor.name,
     email: doctor.email,
