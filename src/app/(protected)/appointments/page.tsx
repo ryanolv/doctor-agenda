@@ -1,13 +1,39 @@
-import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
+import {
+  getAppointment,
+  getIdAndNameDoctors,
+  getIdAndNamePatients,
+} from "@/data/get-data";
+
 import {
   PageActions,
   PageContainer,
+  PageContent,
   PageHeader,
   PageHeaderContent,
 } from "@/components/ui/page-container";
-import { Plus } from "lucide-react";
+import { columns } from "./components/columns";
+import { DataTable } from "@/components/data-table";
+import AddAppointmentButton from "./components/add-appointment-button";
 
-const AppointmentsPage = () => {
+const AppointmentsPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+  if (!session.user.clinic) {
+    throw new Error("Clinic not found");
+  }
+
+  const appointments = await getAppointment(session.user.clinic.id);
+  const [patients, doctors] = await Promise.all([
+    getIdAndNamePatients(session.user.clinic.id),
+    getIdAndNameDoctors(session.user.clinic.id),
+  ]);
   return (
     <PageContainer>
       <PageHeader>
@@ -18,12 +44,12 @@ const AppointmentsPage = () => {
           </p>
         </PageHeaderContent>
         <PageActions>
-          <Button>
-            <Plus className="h-4 w-4" />
-            Agendar consulta
-          </Button>
+          <AddAppointmentButton patients={patients} doctors={doctors} />
         </PageActions>
       </PageHeader>
+      <PageContent>
+        <DataTable columns={columns} data={appointments} />
+      </PageContent>
     </PageContainer>
   );
 };
