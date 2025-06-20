@@ -82,6 +82,7 @@ const UpsertDoctorForm = ({
     resolver: zodResolver(upsertDoctorSchema),
     defaultValues: defaultValues || {
       name: "",
+      email: "",
       phone: "",
       avatarImageUrl: "",
       specialization: "",
@@ -140,7 +141,7 @@ const UpsertDoctorForm = ({
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Clinica Name" />
+                  <Input {...field} placeholder="Nome do médico" />
                 </FormControl>
               </FormItem>
             )}
@@ -152,7 +153,7 @@ const UpsertDoctorForm = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="clinica@example.com" />
+                  <Input {...field} placeholder="medico@example.com" />
                 </FormControl>
               </FormItem>
             )}
