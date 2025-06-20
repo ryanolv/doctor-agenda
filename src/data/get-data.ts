@@ -14,6 +14,21 @@ export const getAppointment = async (
 ): Promise<AppointmentDTO[]> => {
   return await db.query.appointmentsTable.findMany({
     where: eq(appointmentsTable.clinicId, clinicId),
+    with: {
+      patient: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+      doctor: {
+        columns: {
+          id: true,
+          name: true,
+          specialization: true,
+        },
+      },
+    },
   });
 };
 
