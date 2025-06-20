@@ -28,22 +28,17 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  available_hours_afternoon,
-  available_hours_morning,
-  specialities,
-} from "../constants/upsert-doctor";
+import { specialities } from "../constants/upsert-doctor";
 import { upsertDoctor } from "@/actions/upsert-doctor";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import SelectTime from "./select-time";
 
-const formSchema = z
+export const upsertDoctorSchema = z
   .object({
     id: z.string().uuid().optional(),
     name: z.string().trim().min(2, {
@@ -68,11 +63,11 @@ const formSchema = z
     },
   );
 
-export type FormSchema = z.infer<typeof formSchema>;
+export type UpsertDoctorSchema = z.infer<typeof upsertDoctorSchema>;
 
 type UpsertDoctorFormProps = {
   onSuccess?: () => void;
-  defaultValues?: FormSchema;
+  defaultValues?: UpsertDoctorSchema;
   isUpdate?: boolean;
   dialogIsOpen: boolean;
 };
@@ -83,8 +78,8 @@ const UpsertDoctorForm = ({
   defaultValues,
   dialogIsOpen,
 }: UpsertDoctorFormProps) => {
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<UpsertDoctorSchema>({
+    resolver: zodResolver(upsertDoctorSchema),
     defaultValues: defaultValues || {
       name: "",
       phone: "",
@@ -120,7 +115,7 @@ const UpsertDoctorForm = ({
     },
   });
 
-  const onSubmit = (values: FormSchema) => {
+  const onSubmit = (values: UpsertDoctorSchema) => {
     upsertDoctorAction.execute({
       ...values,
       appointmentPriceInCents: values.appointmentPrice * 100,
@@ -293,85 +288,15 @@ const UpsertDoctorForm = ({
           </div>
 
           <div className="flex justify-between gap-5 py-2">
-            <FormField
-              control={form.control}
-              name="availableFromTime"
-              render={({ field }) => {
-                return (
-                  <FormItem className="w-full">
-                    <FormLabel>Início de expediente</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Selecione uma hora" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Manhã</SelectLabel>
-                          {available_hours_morning?.map((hour) => (
-                            <SelectItem key={hour.value} value={hour.value}>
-                              {hour.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                        <SelectGroup>
-                          <SelectLabel>Tarde</SelectLabel>
-                          {available_hours_afternoon?.map((hour) => (
-                            <SelectItem key={hour.value} value={hour.value}>
-                              {hour.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+            <SelectTime
+              label="Início de expediente"
+              param="availableFromTime"
+              form={form}
             />
-            <FormField
-              control={form.control}
-              name="availableToTime"
-              render={({ field }) => {
-                return (
-                  <FormItem className="w-full">
-                    <FormLabel>Fim de expediente</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full" value={field.value}>
-                          <SelectValue placeholder="Selecione uma hora" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Manhã</SelectLabel>
-                          {available_hours_morning?.map((hour) => (
-                            <SelectItem key={hour.value} value={hour.value}>
-                              {hour.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                        <SelectGroup>
-                          <SelectLabel>Tarde</SelectLabel>
-                          {available_hours_afternoon?.map((hour) => (
-                            <SelectItem key={hour.value} value={hour.value}>
-                              {hour.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                );
-              }}
+            <SelectTime
+              label="Fim de expediente"
+              param="availableToTime"
+              form={form}
             />
           </div>
 
