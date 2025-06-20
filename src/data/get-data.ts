@@ -22,3 +22,24 @@ export const getPatients = async (clinicId: string): Promise<PatientDTO[]> => {
     where: eq(patientsTable.clinicId, clinicId),
   });
 };
+
+export const getIdAndNamePatients = async (clinicId: string) => {
+  return await db.query.patientsTable.findMany({
+    where: eq(patientsTable.clinicId, clinicId),
+    columns: {
+      id: true,
+      name: true,
+    },
+  });
+};
+
+export const getIdAndNameDoctors = async (clinicId: string) => {
+  return await db.query.doctorsTable.findMany({
+    where: eq(doctorsTable.clinicId, clinicId),
+    columns: {
+      id: true,
+      name: true,
+      appointmentPriceInCents: true,
+    },
+  });
+};
