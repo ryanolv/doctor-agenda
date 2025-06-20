@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { AppointmentDTO, DoctorDTO, PatientDTO } from "@/types/dto";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 export const getDoctors = async (clinicId: string): Promise<DoctorDTO[]> => {
   return await db.query.doctorsTable.findMany({
@@ -29,6 +29,7 @@ export const getAppointment = async (
         },
       },
     },
+    orderBy: [desc(appointmentsTable.createdAt)],
   });
 };
 
