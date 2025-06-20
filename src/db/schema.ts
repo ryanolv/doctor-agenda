@@ -206,6 +206,7 @@ export const appointmentsTable = pgTable("appointments", {
     .notNull(),
   date: timestamp("date").notNull(),
   status: appointmentStatusEnum("status").notNull(),
+  appointmentPriceInCents: integer("appointment_price_in_cents").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
