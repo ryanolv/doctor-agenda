@@ -139,13 +139,3 @@ export const getMonthlyBiling = async (clinicId: string) => {
     return total + (appointment.appointmentPriceInCents / 100 || 0);
   }, 0);
 };
-
-export const getNumberOfDoctorsInServiceToday = async (clinicId: string) => {
-  const today = new Date().getDay();
-
-  const doctors = await db.query.doctorsTable.findMany({
-    where: and(eq(doctorsTable.clinicId, clinicId)),
-  });
-
-  return doctors.length;
-};
