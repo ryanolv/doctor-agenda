@@ -6,9 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { convertDateToLocalTimezone } from "@/helpers/timezone";
 import { AppointmentDTO } from "@/types/dto";
 
-import ViewAppointment from "./view-appointment";
-// import { APPOINTMENT_STATUS } from "../constants.ts/status-appointment";
-
 export const APPOINTMENT_STATUS = {
   scheduled: "Agendada",
   completed: "Finalizada",

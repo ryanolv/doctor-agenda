@@ -55,7 +55,7 @@ const SignInForm = () => {
         onSuccess: () => {
           router.push("/dashboard");
         },
-        onError: (error) => {
+        onError: () => {
           toast.error("Credenciais inválidas");
         },
       },

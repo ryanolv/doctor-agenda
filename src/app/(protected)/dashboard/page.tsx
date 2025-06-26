@@ -14,7 +14,6 @@ import {
   getApppointmentsForTomorrow,
   getMonthlyBiling,
   getNumberOfAppointmentsForToday,
-  getNumberOfDoctorsInServiceToday,
 } from "@/data/get-data";
 import { db } from "@/db";
 import { usersToClinicsTable } from "@/db/schema";
@@ -48,9 +47,6 @@ const DashboardPage = async () => {
   );
 
   const monthlyBilling = await getMonthlyBiling(clinics[0].clinicId);
-  const doctorsInService = await getNumberOfDoctorsInServiceToday(
-    clinics[0].clinicId,
-  );
 
   return (
     <PageContainer>

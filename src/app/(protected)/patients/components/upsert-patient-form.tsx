@@ -69,6 +69,31 @@ const UpsertPatientForm = ({
     }
   }, [dialogIsOpen, defaultValues, form]);
 
+  // Move useIMask hooks to component level
+  const { ref: phoneMaskRef, value: phoneMaskValue } = useIMask(
+    {
+      mask: "(00) 0 0000-0000",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onAccept: (value: string, mask: any) =>
+        form.setValue("phone", mask.unmaskedValue),
+    },
+    {
+      defaultValue: form.watch("phone") || "",
+    },
+  );
+
+  const { ref: dateMaskRef, value: dateMaskValue } = useIMask(
+    {
+      mask: "00/00/0000",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onAccept: (value: string, mask: any) =>
+        form.setValue("dateOfBirth", mask.unmaskedValue),
+    },
+    {
+      defaultValue: form.watch("dateOfBirth") || "",
+    },
+  );
+
   const upsertPatientAction = useAction(upsertPatient, {
     onSuccess: () => {
       form.reset();
@@ -79,7 +104,7 @@ const UpsertPatientForm = ({
       );
       onSuccess?.();
     },
-    onError: (error) => {
+    onError: () => {
       toast.error(
         isUpdate
           ? "Erro ao atualizar paciente."
@@ -134,17 +159,6 @@ const UpsertPatientForm = ({
             control={form.control}
             name="phone"
             render={({ field }) => {
-              const { ref: maskRef, value } = useIMask(
-                {
-                  mask: "(00) 0 0000-0000",
-                  // TODO: set type to mask param
-                  onAccept: (value: string, mask: any) =>
-                    field.onChange(mask.unmaskedValue),
-                },
-                {
-                  defaultValue: field.value,
-                },
-              );
               return (
                 <FormItem>
                   <FormLabel>Número para contato</FormLabel>
@@ -152,14 +166,17 @@ const UpsertPatientForm = ({
                     <Input
                       {...field}
                       ref={(el) => {
-                        // Assign the input element to the maskRef.current
-                        if (typeof maskRef === "object" && maskRef !== null) {
-                          // @ts-ignore
-                          maskRef.current = el;
+                        // Assign the input element to the phoneMaskRef.current
+                        if (
+                          typeof phoneMaskRef === "object" &&
+                          phoneMaskRef !== null
+                        ) {
+                          phoneMaskRef.current = el;
                         }
                       }}
                       placeholder="(00) 0 0000-0000"
-                      value={value}
+                      value={phoneMaskValue}
+                      onChange={() => {}} // Controlled by useIMask
                     />
                   </FormControl>
                 </FormItem>
@@ -171,17 +188,6 @@ const UpsertPatientForm = ({
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => {
-                const { ref: maskRef, value } = useIMask(
-                  {
-                    mask: "00/00/0000",
-                    // TODO: set type to mask param
-                    onAccept: (value: string, mask: any) =>
-                      field.onChange(mask.unmaskedValue),
-                  },
-                  {
-                    defaultValue: field.value,
-                  },
-                );
                 return (
                   <FormItem>
                     <FormLabel>Data de nascimento</FormLabel>
@@ -189,12 +195,16 @@ const UpsertPatientForm = ({
                       <Input
                         {...field}
                         ref={(el) => {
-                          if (typeof maskRef === "object" && maskRef !== null) {
-                            maskRef.current = el;
+                          if (
+                            typeof dateMaskRef === "object" &&
+                            dateMaskRef !== null
+                          ) {
+                            dateMaskRef.current = el;
                           }
                         }}
                         placeholder="00/00/0000"
-                        value={value}
+                        value={dateMaskValue}
+                        onChange={() => {}} // Controlled by useIMask
                       />
                     </FormControl>
                   </FormItem>

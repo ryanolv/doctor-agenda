@@ -89,7 +89,7 @@ const AddAppointmentForm = ({
         );
       }
     }
-  }, [watchedDoctorId, doctors]);
+  }, [watchedDoctorId, doctors, form]);
 
   const createAppointmentAction = useAction(createAppointment, {
     onSuccess: () => {
@@ -106,10 +106,6 @@ const AddAppointmentForm = ({
     createAppointmentAction.execute(data);
   };
 
-  const onError = (errors: any) => {
-    console.error("Form submission errors:", errors);
-  };
-
   return (
     <DialogContent>
       <DialogHeader>
@@ -119,10 +115,7 @@ const AddAppointmentForm = ({
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, onError)}
-          className="space-y-4"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="patientId"

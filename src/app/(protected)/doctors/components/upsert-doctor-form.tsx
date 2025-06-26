@@ -117,6 +117,19 @@ const UpsertDoctorForm = ({
     },
   });
 
+  // Move useIMask to component level
+  const { ref: phoneMaskRef, value: phoneMaskValue } = useIMask(
+    {
+      mask: "(00) 0 0000-0000",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onAccept: (value: string, mask: any) =>
+        form.setValue("phone", mask.unmaskedValue),
+    },
+    {
+      defaultValue: form.watch("phone"),
+    },
+  );
+
   const onSubmit = (values: UpsertDoctorSchema) => {
     upsertDoctorAction.execute({
       ...values,
@@ -163,17 +176,6 @@ const UpsertDoctorForm = ({
             control={form.control}
             name="phone"
             render={({ field }) => {
-              const { ref: maskRef, value } = useIMask(
-                {
-                  mask: "(00) 0 0000-0000",
-                  // TODO: set type to mask param
-                  onAccept: (value: string, mask: any) =>
-                    field.onChange(mask.unmaskedValue),
-                },
-                {
-                  defaultValue: field.value,
-                },
-              );
               return (
                 <FormItem>
                   <FormLabel>Número para contato</FormLabel>
@@ -181,14 +183,17 @@ const UpsertDoctorForm = ({
                     <Input
                       {...field}
                       ref={(el) => {
-                        // Assign the input element to the maskRef.current
-                        if (typeof maskRef === "object" && maskRef !== null) {
-                          // @ts-ignore
-                          maskRef.current = el;
+                        // Assign the input element to the phoneMaskRef.current
+                        if (
+                          typeof phoneMaskRef === "object" &&
+                          phoneMaskRef !== null
+                        ) {
+                          // @ts-expect-ignore
+                          phoneMaskRef.current = el;
                         }
                       }}
                       placeholder="(00) 0 0000-0000"
-                      value={value}
+                      value={phoneMaskValue}
                     />
                   </FormControl>
                 </FormItem>

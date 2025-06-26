@@ -4,7 +4,6 @@ import {
   CalendarDays,
   LayoutDashboard,
   Stethoscope,
-  User,
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
@@ -23,10 +22,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
-import FooterSidebar from "./options-profile";
 import OptionsProfile from "./options-profile";
 
 // Menu items.
