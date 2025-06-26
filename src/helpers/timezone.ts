@@ -62,3 +62,13 @@ export function convertDateToUtcTimezone(date: string): string {
 export function convertDateTimeToUtcTimezone(date: string, time: string): Date {
   return dayjs.utc(`${date}T${time}`).toDate();
 }
+
+/**
+ * Converts a Date object to a string in "HH:mm:" format in UTC timezone.
+ * @param date - The Date object to convert.
+ * @returns The converted date string in "HH:mm:" format in "America/Sao_Paulo" timezone.
+ */
+
+export function convertDateToTimeString(date: Date): string {
+  return dayjs(date).tz("America/Sao_Paulo").format("HH:mm");
+}

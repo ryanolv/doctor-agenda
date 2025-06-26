@@ -30,6 +30,7 @@ export type AppointmentDTO = {
   patient: {
     id: string;
     name: string;
+    phone?: string;
   };
   doctor: {
     id: string;
