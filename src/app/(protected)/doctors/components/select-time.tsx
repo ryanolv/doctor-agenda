@@ -1,3 +1,5 @@
+import { UseFormReturn } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -13,11 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
-  available_hours_morning,
   available_hours_afternoon,
+  available_hours_morning,
 } from "../constants/upsert-doctor";
-import { UseFormReturn } from "react-hook-form";
 import { UpsertDoctorSchema } from "./upsert-doctor-form";
 
 type SelectTimeProps = {

@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NumericFormat } from "react-number-format";
 import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
+import { z } from "zod";
 
+import { createAppointment } from "@/actions/create-appointment";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -22,6 +24,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -31,18 +34,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-import SelectCombobox from "./select-combobox";
-import { DatePicker } from "./date-picker";
-
 import { DoctorDTO, PatientDTO } from "@/types/dto";
+
 import {
-  available_hours_morning,
   available_hours_afternoon,
+  available_hours_morning,
 } from "../../doctors/constants/upsert-doctor";
-import { createAppointment } from "@/actions/create-appointment";
+import { DatePicker } from "./date-picker";
+import SelectCombobox from "./select-combobox";
 
 const appointmentSchema = z.object({
   patientId: z.string().min(1),

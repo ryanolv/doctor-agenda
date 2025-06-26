@@ -1,12 +1,6 @@
-import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-import {
-  getAppointment,
-  getIdAndNameDoctors,
-  getIdAndNamePatients,
-} from "@/data/get-data";
-
+import { DataTable } from "@/components/data-table";
 import {
   PageActions,
   PageContainer,
@@ -14,9 +8,15 @@ import {
   PageHeader,
   PageHeaderContent,
 } from "@/components/ui/page-container";
-import { columns } from "./components/columns";
-import { DataTable } from "@/components/data-table";
+import {
+  getAppointment,
+  getIdAndNameDoctors,
+  getIdAndNamePatients,
+} from "@/data/get-data";
+import { auth } from "@/lib/auth";
+
 import AddAppointmentButton from "./components/add-appointment-button";
+import { columns } from "./components/columns";
 
 const AppointmentsPage = async () => {
   const session = await auth.api.getSession({

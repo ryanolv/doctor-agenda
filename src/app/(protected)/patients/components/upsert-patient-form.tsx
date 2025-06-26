@@ -1,19 +1,15 @@
 "use client";
 
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useIMask } from "react-imask";
-
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { useIMask } from "react-imask";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { upsertPatient } from "@/actions/upsert-patient";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -21,13 +17,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-
 import { dateIsNotInFuture, isValidDate } from "@/helpers/validation";
-import { useAction } from "next-safe-action/hooks";
-import { upsertPatient } from "@/actions/upsert-patient";
-import { toast } from "sonner";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   id: z.string().optional(),

@@ -1,11 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { createClinic } from "@/actions/create-clinic";
-
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import {
@@ -17,10 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const clinicsFormSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),

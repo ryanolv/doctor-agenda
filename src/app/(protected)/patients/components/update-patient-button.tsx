@@ -1,12 +1,14 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { ExternalLink } from "lucide-react";
-import UpsertPatientForm from "./upsert-patient-form";
-import { useState } from "react";
-import { PatientDTO } from "@/types/dto";
 import { convertDateToLocalTimezone } from "@/helpers/timezone";
+import { PatientDTO } from "@/types/dto";
+
+import UpsertPatientForm from "./upsert-patient-form";
 
 type UpdatePatientButtonProps = {
   patient: Omit<PatientDTO, "clinicId" | "createdAt" | "updatedAt">;

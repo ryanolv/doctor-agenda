@@ -2,8 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import UpdatePatientButton from "./update-patient-button";
 import { convertDateToLocalTimezone } from "@/helpers/timezone";
+
+import UpdatePatientButton from "./update-patient-button";
 
 export type Patient = {
   id: string;

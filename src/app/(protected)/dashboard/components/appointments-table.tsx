@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { convertDateToTimeString } from "@/helpers/timezone";
 import { AppointmentDTO } from "@/types/dto";
+
 import ViewAppointment from "../../appointments/components/view-appointment";
 
 type AppointmentsTableProps = {

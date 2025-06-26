@@ -1,9 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { getPatients } from "@/data/get-data";
-import { auth } from "@/lib/auth";
-
+import { DataTable } from "@/components/data-table";
 import {
   PageActions,
   PageContainer,
@@ -11,9 +9,11 @@ import {
   PageHeader,
   PageHeaderContent,
 } from "@/components/ui/page-container";
-import { DataTable } from "@/components/data-table";
-import { columns } from "./components/columns";
+import { getPatients } from "@/data/get-data";
+import { auth } from "@/lib/auth";
+
 import AddPatientButton from "./components/add-patient-button";
+import { columns } from "./components/columns";
 
 const PatientsPage = async () => {
   const session = await auth.api.getSession({

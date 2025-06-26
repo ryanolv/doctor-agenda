@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import {
   CalendarDays,
   LayoutDashboard,
@@ -9,6 +7,9 @@ import {
   User,
   UsersRound,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -23,10 +24,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+
 import FooterSidebar from "./options-profile";
 import OptionsProfile from "./options-profile";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 // Menu items.
 const items = [

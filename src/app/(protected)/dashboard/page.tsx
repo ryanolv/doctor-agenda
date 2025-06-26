@@ -1,4 +1,3 @@
-import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { BriefcaseMedical, Calendar, DollarSign } from "lucide-react";
 import { headers } from "next/headers";
@@ -11,9 +10,6 @@ import {
   PageHeader,
   PageHeaderContent,
 } from "@/components/ui/page-container";
-
-import AppointmentTable from "./components/appointments-table";
-
 import {
   getApppointmentsForTomorrow,
   getMonthlyBiling,
@@ -22,6 +18,9 @@ import {
 } from "@/data/get-data";
 import { db } from "@/db";
 import { usersToClinicsTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
+
+import AppointmentTable from "./components/appointments-table";
 
 const DashboardPage = async () => {
   const session = await auth.api.getSession({

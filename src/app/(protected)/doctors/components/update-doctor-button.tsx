@@ -1,13 +1,14 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import UpsertDoctorForm from "./upsert-doctor-form";
-import { useState } from "react";
-import type { UpsertDoctorSchema } from "./upsert-doctor-form";
-
-import { DoctorDTO } from "@/types/dto";
 import { convertTimeToTimezone } from "@/helpers/timezone";
+import { DoctorDTO } from "@/types/dto";
+
+import type { UpsertDoctorSchema } from "./upsert-doctor-form";
+import UpsertDoctorForm from "./upsert-doctor-form";
 
 type UpdateDoctorButtonProps = {
   doctor: DoctorDTO;

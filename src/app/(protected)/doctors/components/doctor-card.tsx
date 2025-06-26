@@ -1,3 +1,5 @@
+import { Calendar, Clock, DollarSign } from "lucide-react";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
@@ -6,12 +8,11 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, Clock, DollarSign } from "lucide-react";
+import { convertTimeToTimezone } from "@/helpers/timezone";
+import { DoctorDTO } from "@/types/dto";
+
 import { daysOfWeek } from "../constants/upsert-doctor";
 import UpdateDoctorButton from "./update-doctor-button";
-
-import { DoctorDTO } from "@/types/dto";
-import { convertTimeToTimezone } from "@/helpers/timezone";
 
 type DoctorCardProps = {
   doctor: DoctorDTO;

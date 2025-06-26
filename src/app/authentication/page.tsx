@@ -1,10 +1,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
-
 import { Tabs, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { TabsList } from "@/components/ui/tabs";
+import { auth } from "@/lib/auth";
+
 import SignInForm from "./components/sign-in-form";
 import SignUpForm from "./components/sign-up-form";
 

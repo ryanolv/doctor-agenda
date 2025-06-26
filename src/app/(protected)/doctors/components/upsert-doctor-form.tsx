@@ -1,13 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { NumericFormat } from "react-number-format";
-import { useIMask } from "react-imask";
 import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useIMask } from "react-imask";
+import { NumericFormat } from "react-number-format";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { upsertDoctor } from "@/actions/upsert-doctor";
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
@@ -32,10 +34,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
 import { specialities } from "../constants/upsert-doctor";
-import { upsertDoctor } from "@/actions/upsert-doctor";
-import { toast } from "sonner";
-import { useEffect } from "react";
 import SelectTime from "./select-time";
 
 export const upsertDoctorSchema = z

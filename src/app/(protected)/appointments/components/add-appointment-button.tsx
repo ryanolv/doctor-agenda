@@ -1,11 +1,13 @@
 "use client";
 
+import { Plus } from "lucide-react";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
-import AddAppointmentForm from "./add-appointment-form";
 import { DoctorDTO, PatientDTO } from "@/types/dto";
-import { useState } from "react";
+
+import AddAppointmentForm from "./add-appointment-form";
 
 type AddAppointmentButtonProps = {
   patients: Pick<PatientDTO, "id" | "name">[];

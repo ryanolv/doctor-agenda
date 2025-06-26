@@ -2,9 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import { Badge } from "@/components/ui/badge";
 import { convertDateToLocalTimezone } from "@/helpers/timezone";
 import { AppointmentDTO } from "@/types/dto";
-import { Badge } from "@/components/ui/badge";
+
 import ViewAppointment from "./view-appointment";
 // import { APPOINTMENT_STATUS } from "../constants.ts/status-appointment";
 

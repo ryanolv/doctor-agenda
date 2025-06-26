@@ -1,5 +1,9 @@
 "use client";
 
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { ExternalLink } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,9 +19,6 @@ import {
   convertDateToTimeString,
 } from "@/helpers/timezone";
 import { AppointmentDTO } from "@/types/dto";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import { ExternalLink } from "lucide-react";
 
 type ViewAppointmentProps = {
   appointment: AppointmentDTO;

@@ -1,16 +1,18 @@
 "use server";
 
-import { actionClient } from "@/lib/next-safe-action";
-import { appointmentSchema } from "./schema";
-import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+
 import { db } from "@/db";
 import { appointmentsTable } from "@/db/schema";
-import { revalidatePath } from "next/cache";
 import {
   convertDateTimeToUtcTimezone,
   convertTimeToUtcTimezone,
 } from "@/helpers/timezone";
+import { auth } from "@/lib/auth";
+import { actionClient } from "@/lib/next-safe-action";
+
+import { appointmentSchema } from "./schema";
 
 export const createAppointment = actionClient
   .schema(appointmentSchema)

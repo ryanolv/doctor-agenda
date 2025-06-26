@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-
-import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 import {
   PageActions,
@@ -12,9 +10,11 @@ import {
   PageHeaderContent,
   PageTitle,
 } from "@/components/ui/page-container";
+import { getDoctors } from "@/data/get-data";
+import { auth } from "@/lib/auth";
+
 import AddDoctorButton from "./components/add-doctor-button";
 import DoctorCard from "./components/doctor-card";
-import { getDoctors } from "@/data/get-data";
 
 const DoctorsPage = async () => {
   const session = await auth.api.getSession({
