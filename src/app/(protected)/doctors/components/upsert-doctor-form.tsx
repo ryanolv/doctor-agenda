@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useIMask } from "react-imask";
 import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -35,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { PhoneNumberInput } from "@/components/MaskedInput";
 
 import { specialities } from "../constants/upsert-doctor";
 import SelectTime from "./select-time";
@@ -117,19 +117,6 @@ const UpsertDoctorForm = ({
     },
   });
 
-  // Move useIMask to component level
-  const { ref: phoneMaskRef, value: phoneMaskValue } = useIMask(
-    {
-      mask: "(00) 0 0000-0000",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onAccept: (value: string, mask: any) =>
-        form.setValue("phone", mask.unmaskedValue),
-    },
-    {
-      defaultValue: form.watch("phone"),
-    },
-  );
-
   const onSubmit = (values: UpsertDoctorSchema) => {
     upsertDoctorAction.execute({
       ...values,
@@ -180,21 +167,7 @@ const UpsertDoctorForm = ({
                 <FormItem>
                   <FormLabel>Número para contato</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      ref={(el) => {
-                        // Assign the input element to the phoneMaskRef.current
-                        if (
-                          typeof phoneMaskRef === "object" &&
-                          phoneMaskRef !== null
-                        ) {
-                          // @ts-expect-ignore
-                          phoneMaskRef.current = el;
-                        }
-                      }}
-                      placeholder="(00) 0 0000-0000"
-                      value={phoneMaskValue}
-                    />
+                    <PhoneNumberInput {...field} />
                   </FormControl>
                 </FormItem>
               );
@@ -220,6 +193,7 @@ const UpsertDoctorForm = ({
                   customInput={Input}
                   prefix="R$ "
                 />
+                <FormMessage />
               </FormItem>
             )}
           />

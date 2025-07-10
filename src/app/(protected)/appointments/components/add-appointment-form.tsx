@@ -42,6 +42,7 @@ import {
 } from "../../doctors/constants/upsert-doctor";
 import { DatePicker } from "./date-picker";
 import SelectCombobox from "./select-combobox";
+import { PriceInput } from "@/components/MaskedInput";
 
 const appointmentSchema = z.object({
   patientId: z.string().min(1),
@@ -161,21 +162,7 @@ const AddAppointmentForm = ({
               render={({ field }) => (
                 <FormItem className="cursor-not-allowed">
                   <FormLabel>Valor da consulta</FormLabel>
-                  <NumericFormat
-                    value={!!watchedDoctorId ? field.value : 0}
-                    onValueChange={(value) => {
-                      field.onChange(value.floatValue);
-                    }}
-                    decimalScale={2}
-                    fixedDecimalScale
-                    decimalSeparator=","
-                    allowNegative={false}
-                    allowLeadingZeros={false}
-                    thousandSeparator="."
-                    customInput={Input}
-                    prefix="R$ "
-                    disabled
-                  />
+                  <PriceInput {...field} />
                 </FormItem>
               )}
             />
