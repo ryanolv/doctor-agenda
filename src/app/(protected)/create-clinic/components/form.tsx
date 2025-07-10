@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PhoneNumberInput } from "@/components/MaskedInput";
 
 const clinicsFormSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -101,7 +102,7 @@ const ClinicForm = () => {
                 Telefone <span className="text-xs text-red-800">*</span>
               </FormLabel>
               <FormControl>
-                <Input placeholder="(11) 99999-9999" {...field} />
+                <PhoneNumberInput {...field} placeholder="(99) 9 9999-9999" />
               </FormControl>
               <FormMessage />
             </FormItem>

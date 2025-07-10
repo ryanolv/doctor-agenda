@@ -27,6 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { dateIsNotInFuture, isValidDate } from "@/helpers/validation";
+import { DateOfBirthInput, PhoneNumberInput } from "@/components/MaskedInput";
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -79,18 +80,6 @@ const UpsertPatientForm = ({
     },
     {
       defaultValue: form.watch("phone") || "",
-    },
-  );
-
-  const { ref: dateMaskRef, value: dateMaskValue } = useIMask(
-    {
-      mask: "00/00/0000",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onAccept: (value: string, mask: any) =>
-        form.setValue("dateOfBirth", mask.unmaskedValue),
-    },
-    {
-      defaultValue: form.watch("dateOfBirth") || "",
     },
   );
 
@@ -163,21 +152,7 @@ const UpsertPatientForm = ({
                 <FormItem>
                   <FormLabel>Número para contato</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      ref={(el) => {
-                        // Assign the input element to the phoneMaskRef.current
-                        if (
-                          typeof phoneMaskRef === "object" &&
-                          phoneMaskRef !== null
-                        ) {
-                          phoneMaskRef.current = el;
-                        }
-                      }}
-                      placeholder="(00) 0 0000-0000"
-                      value={phoneMaskValue}
-                      onChange={() => {}} // Controlled by useIMask
-                    />
+                    <PhoneNumberInput {...field} />
                   </FormControl>
                 </FormItem>
               );
@@ -192,20 +167,7 @@ const UpsertPatientForm = ({
                   <FormItem>
                     <FormLabel>Data de nascimento</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        ref={(el) => {
-                          if (
-                            typeof dateMaskRef === "object" &&
-                            dateMaskRef !== null
-                          ) {
-                            dateMaskRef.current = el;
-                          }
-                        }}
-                        placeholder="00/00/0000"
-                        value={dateMaskValue}
-                        onChange={() => {}} // Controlled by useIMask
-                      />
+                      <DateOfBirthInput {...field} />
                     </FormControl>
                   </FormItem>
                 );
